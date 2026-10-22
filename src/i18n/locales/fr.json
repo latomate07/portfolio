@@ -1,0 +1,58 @@
+{
+  "meta": {
+    "title": "Tahirou LAOUAN MAGAGI — Ingénieur Cloud / DevOps / MLOps"
+  },
+  "nav": {
+    "menu": "Menu",
+    "about": "À propos",
+    "skills": "Expertise",
+    "contact": "Contact"
+  },
+  "hero": {
+    "brand": "Tahirou LAOUAN MAGAGI",
+    "tags": ["Full-Stack Engineering", "Architecture Cloud (AWS)", "DevOps & Infrastructure", "MLOps & IA"],
+    "role": "Cloud Software Engineer chez Fortuneo",
+    "subrole": "M2 Informatique & Data Science @ ESILV",
+    "greeting": "Hey !",
+    "headingLine1": "Je suis un ingénieur qui",
+    "headingLine2": "transforme des problèmes complexes",
+    "headingLine3": "en systèmes simples et robustes.",
+    "paragraph1": "Je suis Cloud Software Engineer, passionné par la conception d'applications et de systèmes cloud.",
+    "paragraph2": "J'aime transformer des problématiques complexes en solutions simples, robustes et efficaces, avec un intérêt particulier pour AWS, le DevOps, la Data et l'IA.",
+    "signature": "Construisons quelque chose de solide :)",
+    "cta": "Apprenez-en plus sur moi",
+    "ctaGithub": "Voir mon travail sur GitHub"
+  },
+  "skills": {
+    "eyebrow": "Ce que je fais",
+    "heading": "Full-Stack, Cloud, DevOps & MLOps",
+    "intro": "Je suis à l'aise sur l'ensemble de la stack — de la livraison de fonctionnalités produit à la conception de l'infrastructure cloud et de l'automatisation qui les font tourner de façon fiable en production.",
+    "cards": [
+      {
+        "title": "Full-Stack Engineering",
+        "description": "Conception d'applications web de bout en bout avec React, TypeScript et des stacks backend modernes, de l'UI à l'API."
+      },
+      {
+        "title": "Architecture Cloud",
+        "description": "Conception de systèmes scalables, sécurisés et optimisés en coût sur AWS — compute, stockage, réseau et serverless."
+      },
+      {
+        "title": "DevOps & Infrastructure as Code",
+        "description": "Automatisation de l'infrastructure avec Terraform, pipelines CI/CD, conteneurs et outils d'observabilité."
+      },
+      {
+        "title": "MLOps & IA",
+        "description": "Industrialisation des workflows data et ML — des pipelines au déploiement — pour livrer des fonctionnalités IA de façon fiable."
+      }
+    ]
+  },
+  "contact": {
+    "heading": "Discutons",
+    "paragraph": "Ouvert à de nouvelles opportunités et à des échanges intéressants autour du cloud, du DevOps et de l'IA.",
+    "github": "GitHub",
+    "email": "Email"
+  },
+  "footer": {
+    "rights": "Tous droits réservés."
+  }
+}

@@ -1,0 +1,14 @@
+# Copy to terraform.tfvars (gitignored) and adjust, or pass values via
+# -var / CI secrets instead of committing them.
+
+aws_region   = "eu-west-3"
+project_name = "tahirou-portfolio"
+environment  = "production"
+bucket_name  = "tahirou-portfolio-site" # must be globally unique
+
+# Optional custom domain. Leave both empty to use the CloudFront default
+# domain (dXXXXXXXXXXXXX.cloudfront.net) only.
+# domain_name             = "tahirou.dev"
+# alternate_domain_names  = ["www.tahirou.dev"]
+# route53_zone_id         = "Z0123456789ABCDEFGHIJ"
+# acm_certificate_arn     = "" # leave empty to let Terraform issue + validate one

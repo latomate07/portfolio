@@ -1,0 +1,58 @@
+{
+  "meta": {
+    "title": "Tahirou LAOUAN MAGAGI — Cloud / DevOps / MLOps Engineer"
+  },
+  "nav": {
+    "menu": "Menu",
+    "about": "About",
+    "skills": "Expertise",
+    "contact": "Contact"
+  },
+  "hero": {
+    "brand": "Tahirou LAOUAN MAGAGI",
+    "tags": ["Full-Stack Engineering", "Cloud Architecture (AWS)", "DevOps & Infrastructure", "MLOps & AI"],
+    "role": "Cloud Software Engineer at Fortuneo",
+    "subrole": "M2 Computer Science & Data Science @ ESILV",
+    "greeting": "Hey!",
+    "headingLine1": "I'm an engineer who",
+    "headingLine2": "turns complex problems into",
+    "headingLine3": "simple, solid systems.",
+    "paragraph1": "I'm a Cloud Software Engineer passionate about designing cloud applications and systems.",
+    "paragraph2": "I love turning complex challenges into simple, robust and efficient solutions — with a strong focus on AWS, DevOps, Data and AI.",
+    "signature": "Let's build something solid :)",
+    "cta": "Get to know me",
+    "ctaGithub": "See my work on GitHub"
+  },
+  "skills": {
+    "eyebrow": "What I do",
+    "heading": "Full-Stack, Cloud, DevOps & MLOps",
+    "intro": "I move comfortably across the whole stack — from shipping product features to designing the cloud infrastructure and automation that run them reliably in production.",
+    "cards": [
+      {
+        "title": "Full-Stack Engineering",
+        "description": "Building end-to-end web applications with React, TypeScript and modern backend stacks, from UI to API."
+      },
+      {
+        "title": "Cloud Architecture",
+        "description": "Designing scalable, secure and cost-efficient systems on AWS — compute, storage, networking and serverless."
+      },
+      {
+        "title": "DevOps & Infrastructure as Code",
+        "description": "Automating infrastructure with Terraform, CI/CD pipelines, containers and observability tooling."
+      },
+      {
+        "title": "MLOps & AI",
+        "description": "Operationalizing data and ML workflows — from pipelines to deployment — to ship AI features reliably."
+      }
+    ]
+  },
+  "contact": {
+    "heading": "Let's talk",
+    "paragraph": "Open to new opportunities and interesting conversations about cloud, DevOps and AI.",
+    "github": "GitHub",
+    "email": "Email"
+  },
+  "footer": {
+    "rights": "All rights reserved."
+  }
+}
