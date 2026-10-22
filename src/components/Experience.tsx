@@ -301,10 +301,8 @@ function SliderView({
 }) {
   const [showEducation, setShowEducation] = useState(false);
   const [activeIndex, setActiveIndex] = useState(0);
-  const [progress, setProgress] = useState(0);
   const itemRefs = useRef<(HTMLDivElement | null)[]>([]);
   const intersectingRef = useRef<Set<number>>(new Set());
-  const rafRef = useRef<number | null>(null);
 
   const jobEntries = jobsToEntries(jobs);
   const eduEntries = eduToEntries(education);
@@ -349,55 +347,10 @@ function SliderView({
     return () => observer.disconnect();
   }, [stack.length]);
 
-  useEffect(() => {
-    // getBoundingClientRect().top is useless here: while a slide is
-    // "stuck" it stays pinned at the same on-screen position by
-    // definition, so it never reflects how far we've scrolled through its
-    // runway. Track distance from the scroll position where this slide
-    // became active instead.
-    const el = itemRefs.current[activeIndex];
-    const slideHeight = window.innerHeight - headerHeight;
-    const runway = el ? el.offsetHeight - slideHeight : 0;
-    const startScrollY = window.scrollY;
-
-    const computeProgress = () => {
-      if (runway <= 1) {
-        setProgress(1);
-        return;
-      }
-      const scrolledIntoRunway = window.scrollY - startScrollY;
-      setProgress(Math.min(1, Math.max(0, scrolledIntoRunway / runway)));
-    };
-
-    const onScroll = () => {
-      if (rafRef.current !== null) return;
-      rafRef.current = requestAnimationFrame(() => {
-        rafRef.current = null;
-        computeProgress();
-      });
-    };
-
-    computeProgress();
-    window.addEventListener("scroll", onScroll, { passive: true });
-    return () => {
-      window.removeEventListener("scroll", onScroll);
-      if (rafRef.current !== null) cancelAnimationFrame(rafRef.current);
-    };
-  }, [activeIndex, headerHeight]);
-
   let realCounter = -1;
 
   return (
     <div className="relative bg-panel">
-      <div
-        className="sticky z-50 h-1.5 w-full overflow-hidden bg-ink/10"
-        style={{ top: headerHeight }}
-      >
-        <div
-          className="h-full bg-accent transition-[width] duration-150 ease-out"
-          style={{ width: `${progress * 100}%` }}
-        />
-      </div>
 
       {stack.map((item, i) => {
         // The last slide has nothing after it to cover it, so it can't be
