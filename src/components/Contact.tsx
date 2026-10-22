@@ -98,8 +98,6 @@ export function Contact() {
           © {CURRENT_YEAR} Tahirou LAOUAN MAGAGI — {t("footer.rights")}
         </div>
       </div>
-
-      <NameMark />
     </footer>
   );
 }
