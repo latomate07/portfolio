@@ -52,6 +52,8 @@
     "heading": "My journey",
     "workLabel": "Experience",
     "eduLabel": "Education",
+    "continueHeading": "Want to see my education?",
+    "continueCta": "Continue",
     "jobs": [
       {
         "role": "Cloud Software Engineer",

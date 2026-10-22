@@ -1,6 +1,6 @@
-import type { ReactNode } from "react";
+import { useEffect, useRef, useState, type ReactNode } from "react";
 import { useTranslation } from "react-i18next";
-import { Calendar, MapPin } from "lucide-react";
+import { Calendar, MapPin, ArrowDown, Layers, List } from "lucide-react";
 
 import awsIcon from "../assets/logos/tech/amazonwebservices.svg";
 import typescriptIcon from "../assets/logos/tech/typescript.svg";
@@ -69,20 +69,341 @@ type Education = {
   skills: Skill[];
 };
 
-function SkillChip({ skill }: { skill: Skill }) {
+type Entry = {
+  kind: "work" | "edu";
+  logo: string;
+  title: string;
+  org: string;
+  meta: string;
+  start: string;
+  end: string;
+  duration?: string;
+  skills: Skill[];
+};
+
+function jobsToEntries(jobs: Job[]): Entry[] {
+  return jobs.map((job, i) => ({
+    kind: "work" as const,
+    logo: JOB_LOGOS[i],
+    title: job.role,
+    org: job.company,
+    meta: `${job.type} · ${job.location} · ${job.mode}`,
+    start: job.start,
+    end: job.end,
+    duration: job.duration,
+    skills: job.skills,
+  }));
+}
+
+function eduToEntries(education: Education[]): Entry[] {
+  return education.map((edu, i) => ({
+    kind: "edu" as const,
+    logo: EDU_LOGOS[i],
+    title: edu.degree,
+    org: edu.school,
+    meta: edu.field,
+    start: edu.start,
+    end: edu.end,
+    skills: edu.skills,
+  }));
+}
+
+function SkillChip({ skill, large = false }: { skill: Skill; large?: boolean }) {
   const icon = TECH_ICONS[skill.id];
   return (
-    <span className="inline-flex items-center gap-1.5 rounded-full border border-ink/10 bg-white px-3 py-1 text-xs font-medium text-ink/70">
-      {icon && <img src={icon} alt="" className="h-3.5 w-3.5" />}
+    <span
+      className={`inline-flex items-center gap-1.5 rounded-full border border-ink/15 bg-white font-medium text-ink/70 ${
+        large ? "gap-2 px-4 py-2 text-sm" : "px-3 py-1 text-xs"
+      }`}
+    >
+      {icon && <img src={icon} alt="" className={large ? "h-4 w-4" : "h-3.5 w-3.5"} />}
       {skill.label}
     </span>
   );
 }
 
+/* ---------------------------------------------------------------- */
+/* View toggle (slider / roadmap)                                    */
+/* ---------------------------------------------------------------- */
+
+type ViewMode = "slider" | "roadmap";
+
+function ViewToggle({ mode, onChange }: { mode: ViewMode; onChange: (m: ViewMode) => void }) {
+  return (
+    <div className="inline-flex items-center gap-1 rounded-full border border-ink/10 bg-white/90 p-1 shadow-lg backdrop-blur">
+      <button
+        type="button"
+        onClick={() => onChange("slider")}
+        aria-label="Slider view"
+        aria-pressed={mode === "slider"}
+        className={`flex h-9 w-9 cursor-pointer items-center justify-center rounded-full transition-colors ${
+          mode === "slider" ? "bg-ink text-cream" : "text-ink/50 hover:text-ink"
+        }`}
+      >
+        <Layers size={16} />
+      </button>
+      <button
+        type="button"
+        onClick={() => onChange("roadmap")}
+        aria-label="Roadmap view"
+        aria-pressed={mode === "roadmap"}
+        className={`flex h-9 w-9 cursor-pointer items-center justify-center rounded-full transition-colors ${
+          mode === "roadmap" ? "bg-ink text-cream" : "text-ink/50 hover:text-ink"
+        }`}
+      >
+        <List size={16} />
+      </button>
+    </div>
+  );
+}
+
+/* ---------------------------------------------------------------- */
+/* Slider view — full-screen Hero-style stacked slides               */
+/* ---------------------------------------------------------------- */
+
+function EntrySlide({
+  entry,
+  label,
+  index,
+  total,
+  active,
+}: {
+  entry: Entry;
+  label: string;
+  index: number;
+  total: number;
+  active: boolean;
+}) {
+  return (
+    <section className="relative flex h-screen flex-col overflow-hidden bg-panel lg:flex-row">
+      <div className="relative flex min-h-[42vh] flex-1 flex-col justify-between overflow-hidden bg-panel px-8 pt-10 pb-8 text-cream sm:px-12 lg:min-h-screen lg:px-16">
+        <div
+          aria-hidden
+          className="pointer-events-none absolute -top-24 -left-24 h-72 w-72 rounded-full bg-accent/15 blur-3xl"
+        />
+        <div
+          aria-hidden
+          className="pointer-events-none absolute right-0 bottom-0 h-80 w-80 translate-x-1/3 translate-y-1/3 rounded-full bg-accent/10 blur-3xl"
+        />
+
+        <div className="relative z-10 flex items-center justify-between">
+          <p className="font-display text-sm font-bold tracking-[0.2em] text-cream/60 uppercase">
+            {label}
+          </p>
+          <p className="font-display text-sm font-bold tracking-[0.2em] text-cream/40">
+            {String(index + 1).padStart(2, "0")} / {String(total).padStart(2, "0")}
+          </p>
+        </div>
+
+        <div className="relative z-10 mx-auto flex w-full max-w-xs flex-col items-center gap-6 text-center">
+          <div className="flex h-32 w-32 shrink-0 items-center justify-center overflow-hidden rounded-[2rem] bg-white shadow-2xl ring-4 ring-cream/10 sm:h-40 sm:w-40">
+            <img src={entry.logo} alt="" className="h-full w-full object-contain p-5" />
+          </div>
+          <p className="font-display text-2xl font-extrabold sm:text-3xl">{entry.org}</p>
+        </div>
+
+        <div className="relative z-10 flex flex-col gap-1.5">
+          {entry.duration && (
+            <p className="font-display text-3xl leading-none font-extrabold text-accent sm:text-4xl">
+              {entry.duration}
+            </p>
+          )}
+          <span className="inline-flex items-center gap-1.5 text-sm text-cream/60">
+            <Calendar size={14} />
+            {entry.start} – {entry.end}
+          </span>
+        </div>
+      </div>
+
+      <div className="relative flex flex-1 flex-col justify-center rounded-t-[2.5rem] bg-cream px-8 py-12 sm:px-12 lg:rounded-t-none lg:rounded-l-[3rem] lg:-ml-10 lg:px-16">
+        <div
+          className="transition-all duration-700 ease-out"
+          style={{
+            opacity: active ? 1 : 0,
+            transform: active ? "translateY(0)" : "translateY(24px)",
+          }}
+        >
+          <h3 className="font-display text-4xl leading-[1.05] font-extrabold text-ink sm:text-5xl lg:text-6xl">
+            {entry.title}
+          </h3>
+
+          {entry.meta && (
+            <p className="mt-5 flex items-start gap-2 text-lg text-ink/60 sm:text-xl">
+              <MapPin size={20} className="mt-1 shrink-0" />
+              {entry.meta}
+            </p>
+          )}
+
+          <div className="mt-8 flex flex-wrap gap-2.5">
+            {entry.skills.map((skill) => (
+              <SkillChip key={skill.id} skill={skill} large />
+            ))}
+          </div>
+        </div>
+      </div>
+    </section>
+  );
+}
+
+function ContinueSlide({
+  heading,
+  cta,
+  onContinue,
+}: {
+  heading: string;
+  cta: string;
+  onContinue: () => void;
+}) {
+  return (
+    <section className="relative flex h-screen flex-col items-center justify-center overflow-hidden bg-panel px-8 text-center text-cream">
+      <div
+        aria-hidden
+        className="pointer-events-none absolute -top-24 -left-24 h-72 w-72 rounded-full bg-accent/15 blur-3xl"
+      />
+      <div
+        aria-hidden
+        className="pointer-events-none absolute right-0 bottom-0 h-80 w-80 translate-x-1/3 translate-y-1/3 rounded-full bg-accent/10 blur-3xl"
+      />
+
+      <h3 className="font-display relative z-10 max-w-xl text-4xl leading-[1.1] font-extrabold sm:text-5xl">
+        {heading}
+      </h3>
+
+      <button
+        type="button"
+        onClick={onContinue}
+        className="group relative z-10 mt-10 inline-flex cursor-pointer items-center gap-2 rounded-full bg-accent px-8 py-4 text-lg font-bold text-ink transition-transform hover:scale-105"
+      >
+        {cta}
+        <ArrowDown size={20} className="transition-transform group-hover:translate-y-1" />
+      </button>
+    </section>
+  );
+}
+
+type StackItem = { kind: "cta" } | Entry;
+
+function SliderView({
+  jobs,
+  education,
+  workLabel,
+  eduLabel,
+  continueHeading,
+  continueCta,
+}: {
+  jobs: Job[];
+  education: Education[];
+  workLabel: string;
+  eduLabel: string;
+  continueHeading: string;
+  continueCta: string;
+}) {
+  const [showEducation, setShowEducation] = useState(false);
+  const [activeIndex, setActiveIndex] = useState(0);
+  const itemRefs = useRef<(HTMLDivElement | null)[]>([]);
+  const intersectingRef = useRef<Set<number>>(new Set());
+
+  const jobEntries = jobsToEntries(jobs);
+  const eduEntries = eduToEntries(education);
+  const stack: StackItem[] = [
+    ...jobEntries,
+    { kind: "cta" },
+    ...(showEducation ? eduEntries : []),
+  ];
+  const totalRealEntries = jobEntries.length + (showEducation ? eduEntries.length : 0);
+
+  useEffect(() => {
+    // Every sticky slide stays mounted "stuck" behind the ones that follow
+    // it, so several can report isIntersecting at once (same on-screen
+    // rect). The visually frontmost slide is always the highest index
+    // (highest z-index), so track the whole intersecting set and pick its
+    // max — this stays correct scrolling in either direction.
+    const observer = new IntersectionObserver(
+      (observed) => {
+        observed.forEach((obs) => {
+          const idx = Number((obs.target as HTMLElement).dataset.index);
+          if (obs.isIntersecting) {
+            intersectingRef.current.add(idx);
+          } else {
+            intersectingRef.current.delete(idx);
+          }
+        });
+        if (intersectingRef.current.size > 0) {
+          setActiveIndex(Math.max(...intersectingRef.current));
+        }
+      },
+      { threshold: 0.6 },
+    );
+    itemRefs.current.forEach((el) => el && observer.observe(el));
+    return () => observer.disconnect();
+  }, [stack.length]);
+
+  let realCounter = -1;
+
+  return (
+    <div className="relative bg-panel">
+      {stack.map((item, i) => {
+        // The last slide has nothing after it to cover it, so it can't be
+        // "sticky" (it would never get the scroll runway needed to release
+        // and would stay pinned forever). Render it in normal flow instead.
+        const isLast = i === stack.length - 1;
+        const wrapperClassName = isLast ? "relative" : "sticky top-0";
+
+        if (item.kind === "cta") {
+          return (
+            <div
+              key="cta"
+              ref={(el) => {
+                itemRefs.current[i] = el;
+              }}
+              data-index={i}
+              className={wrapperClassName}
+              style={{ zIndex: i + 1 }}
+            >
+              <ContinueSlide
+                heading={continueHeading}
+                cta={continueCta}
+                onContinue={() => setShowEducation(true)}
+              />
+            </div>
+          );
+        }
+
+        realCounter += 1;
+        const realIndex = realCounter;
+
+        return (
+          <div
+            key={item.org + item.title}
+            ref={(el) => {
+              itemRefs.current[i] = el;
+            }}
+            data-index={i}
+            className={wrapperClassName}
+            style={{ zIndex: i + 1 }}
+          >
+            <EntrySlide
+              entry={item}
+              label={item.kind === "work" ? workLabel : eduLabel}
+              index={realIndex}
+              total={totalRealEntries}
+              active={activeIndex === i}
+            />
+          </div>
+        );
+      })}
+    </div>
+  );
+}
+
+/* ---------------------------------------------------------------- */
+/* Roadmap view — compact two-column timeline                        */
+/* ---------------------------------------------------------------- */
+
 function Timeline({
   logos,
-  renderItem,
   count,
+  renderItem,
 }: {
   logos: string[];
   count: number;
@@ -109,97 +430,151 @@ function Timeline({
   );
 }
 
+function RoadmapView({
+  jobs,
+  education,
+  workLabel,
+  eduLabel,
+}: {
+  jobs: Job[];
+  education: Education[];
+  workLabel: string;
+  eduLabel: string;
+}) {
+  return (
+    <div className="bg-cream-soft px-8 pb-20 sm:px-12 lg:px-16">
+      <div className="grid gap-16 lg:grid-cols-2 lg:gap-12">
+        <div>
+          <p className="text-xs font-bold tracking-[0.15em] text-ink/50 uppercase">{workLabel}</p>
+          <div className="mt-6">
+            <Timeline
+              logos={JOB_LOGOS}
+              count={jobs.length}
+              renderItem={(i) => {
+                const job = jobs[i];
+                return {
+                  title: job.company,
+                  children: (
+                    <div>
+                      <h3 className="font-display text-lg font-bold text-ink">{job.role}</h3>
+                      <p className="mt-0.5 text-sm font-medium text-ink/70">
+                        {job.company} · {job.type}
+                      </p>
+                      <div className="mt-2 flex flex-wrap gap-x-4 gap-y-1 text-xs text-ink/50">
+                        <span className="inline-flex items-center gap-1">
+                          <Calendar size={13} />
+                          {job.start} – {job.end} · {job.duration}
+                        </span>
+                        <span className="inline-flex items-center gap-1">
+                          <MapPin size={13} />
+                          {job.location} · {job.mode}
+                        </span>
+                      </div>
+                      <div className="mt-3 flex flex-wrap gap-2">
+                        {job.skills.map((skill) => (
+                          <SkillChip key={skill.id} skill={skill} />
+                        ))}
+                      </div>
+                    </div>
+                  ),
+                };
+              }}
+            />
+          </div>
+        </div>
+
+        <div>
+          <p className="text-xs font-bold tracking-[0.15em] text-ink/50 uppercase">{eduLabel}</p>
+          <div className="mt-6">
+            <Timeline
+              logos={EDU_LOGOS}
+              count={education.length}
+              renderItem={(i) => {
+                const edu = education[i];
+                return {
+                  title: edu.school,
+                  children: (
+                    <div>
+                      <h3 className="font-display text-lg font-bold text-ink">{edu.school}</h3>
+                      <p className="mt-0.5 text-sm font-medium text-ink/70">{edu.degree}</p>
+                      {edu.field && <p className="mt-0.5 text-xs text-ink/50">{edu.field}</p>}
+                      <div className="mt-2 flex flex-wrap gap-x-4 gap-y-1 text-xs text-ink/50">
+                        <span className="inline-flex items-center gap-1">
+                          <Calendar size={13} />
+                          {edu.start} – {edu.end}
+                        </span>
+                      </div>
+                      <div className="mt-3 flex flex-wrap gap-2">
+                        {edu.skills.map((skill) => (
+                          <SkillChip key={skill.id} skill={skill} />
+                        ))}
+                      </div>
+                    </div>
+                  ),
+                };
+              }}
+            />
+          </div>
+        </div>
+      </div>
+    </div>
+  );
+}
+
+/* ---------------------------------------------------------------- */
+/* Main                                                               */
+/* ---------------------------------------------------------------- */
+
 export function Experience() {
   const { t } = useTranslation();
   const jobs = t("experience.jobs", { returnObjects: true }) as Job[];
   const education = t("experience.education", { returnObjects: true }) as Education[];
+  const workLabel = t("experience.workLabel");
+  const eduLabel = t("experience.eduLabel");
+  const continueHeading = t("experience.continueHeading");
+  const continueCta = t("experience.continueCta");
+
+  const [view, setView] = useState<ViewMode>("slider");
+  const [showHeader, setShowHeader] = useState(true);
+  const sentinelRef = useRef<HTMLDivElement>(null);
+
+  useEffect(() => {
+    const el = sentinelRef.current;
+    if (!el) return;
+    const observer = new IntersectionObserver(([entry]) => setShowHeader(!entry.isIntersecting), {
+      threshold: 0,
+    });
+    observer.observe(el);
+    return () => observer.disconnect();
+  }, []);
 
   return (
-    <section id="experience" className="bg-cream-soft py-20">
-      <div className="px-8 sm:px-12 lg:px-16">
-        <h2 className="font-display max-w-2xl text-4xl leading-[1.05] font-extrabold tracking-tight text-ink sm:text-5xl">
+    <div id="experience" className="relative">
+      <div
+        className={`sticky top-0 z-50 flex flex-wrap items-center justify-between gap-6 bg-cream-soft px-8 py-6 shadow-sm transition-opacity duration-300 sm:px-12 lg:px-16 ${
+          showHeader ? "opacity-100" : "pointer-events-none opacity-0"
+        }`}
+      >
+        <h2 className="font-display text-2xl font-extrabold tracking-tight text-ink sm:text-3xl">
           {t("experience.heading")}
         </h2>
-
-        <div className="mt-14 grid gap-16 lg:grid-cols-2 lg:gap-12">
-          <div>
-            <p className="text-xs font-bold tracking-[0.15em] text-ink/50 uppercase">
-              {t("experience.workLabel")}
-            </p>
-            <div className="mt-6">
-              <Timeline
-                logos={JOB_LOGOS}
-                count={jobs.length}
-                renderItem={(i) => {
-                  const job = jobs[i];
-                  return {
-                    title: job.company,
-                    children: (
-                      <div>
-                        <h3 className="font-display text-lg font-bold text-ink">{job.role}</h3>
-                        <p className="mt-0.5 text-sm font-medium text-ink/70">
-                          {job.company} · {job.type}
-                        </p>
-                        <div className="mt-2 flex flex-wrap gap-x-4 gap-y-1 text-xs text-ink/50">
-                          <span className="inline-flex items-center gap-1">
-                            <Calendar size={13} />
-                            {job.start} – {job.end} · {job.duration}
-                          </span>
-                          <span className="inline-flex items-center gap-1">
-                            <MapPin size={13} />
-                            {job.location} · {job.mode}
-                          </span>
-                        </div>
-                        <div className="mt-3 flex flex-wrap gap-2">
-                          {job.skills.map((skill) => (
-                            <SkillChip key={skill.id} skill={skill} />
-                          ))}
-                        </div>
-                      </div>
-                    ),
-                  };
-                }}
-              />
-            </div>
-          </div>
-
-          <div>
-            <p className="text-xs font-bold tracking-[0.15em] text-ink/50 uppercase">
-              {t("experience.eduLabel")}
-            </p>
-            <div className="mt-6">
-              <Timeline
-                logos={EDU_LOGOS}
-                count={education.length}
-                renderItem={(i) => {
-                  const edu = education[i];
-                  return {
-                    title: edu.school,
-                    children: (
-                      <div>
-                        <h3 className="font-display text-lg font-bold text-ink">{edu.school}</h3>
-                        <p className="mt-0.5 text-sm font-medium text-ink/70">{edu.degree}</p>
-                        {edu.field && <p className="mt-0.5 text-xs text-ink/50">{edu.field}</p>}
-                        <div className="mt-2 flex flex-wrap gap-x-4 gap-y-1 text-xs text-ink/50">
-                          <span className="inline-flex items-center gap-1">
-                            <Calendar size={13} />
-                            {edu.start} – {edu.end}
-                          </span>
-                        </div>
-                        <div className="mt-3 flex flex-wrap gap-2">
-                          {edu.skills.map((skill) => (
-                            <SkillChip key={skill.id} skill={skill} />
-                          ))}
-                        </div>
-                      </div>
-                    ),
-                  };
-                }}
-              />
-            </div>
-          </div>
-        </div>
+        <ViewToggle mode={view} onChange={setView} />
       </div>
-    </section>
+
+      {view === "slider" ? (
+        <SliderView
+          jobs={jobs}
+          education={education}
+          workLabel={workLabel}
+          eduLabel={eduLabel}
+          continueHeading={continueHeading}
+          continueCta={continueCta}
+        />
+      ) : (
+        <RoadmapView jobs={jobs} education={education} workLabel={workLabel} eduLabel={eduLabel} />
+      )}
+
+      <div ref={sentinelRef} aria-hidden className="h-px" />
+    </div>
   );
 }
