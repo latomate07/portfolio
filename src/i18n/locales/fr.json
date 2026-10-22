@@ -24,25 +24,27 @@
     "ctaGithub": "Voir mon travail sur GitHub"
   },
   "skills": {
-    "eyebrow": "Ce que je fais",
-    "heading": "Full-Stack, Cloud, DevOps & MLOps",
-    "intro": "Je suis à l'aise sur l'ensemble de la stack — de la livraison de fonctionnalités produit à la conception de l'infrastructure cloud et de l'automatisation qui les font tourner de façon fiable en production.",
+    "headingLines": ["Je conçois des produits.", "Je les déploie dans le cloud.", "Je les maintiens en vie."],
     "cards": [
       {
-        "title": "Full-Stack Engineering",
-        "description": "Conception d'applications web de bout en bout avec React, TypeScript et des stacks backend modernes, de l'UI à l'API."
+        "eyebrow": "Full-Stack",
+        "heading": "Des apps web de bout en bout, de l'UI à l'API.",
+        "description": "React, TypeScript et des stacks backend modernes."
       },
       {
-        "title": "Architecture Cloud",
-        "description": "Conception de systèmes scalables, sécurisés et optimisés en coût sur AWS — compute, stockage, réseau et serverless."
+        "eyebrow": "Cloud (AWS)",
+        "heading": "Une infra scalable qui ne tombe pas en marche.",
+        "description": "Compute, stockage, réseau et serverless sur AWS."
       },
       {
-        "title": "DevOps & Infrastructure as Code",
-        "description": "Automatisation de l'infrastructure avec Terraform, pipelines CI/CD, conteneurs et outils d'observabilité."
+        "eyebrow": "DevOps & IaC",
+        "heading": "Tout automatisé, de Terraform au déploiement.",
+        "description": "Pipelines CI/CD, conteneurs et observabilité."
       },
       {
-        "title": "MLOps & IA",
-        "description": "Industrialisation des workflows data et ML — des pipelines au déploiement — pour livrer des fonctionnalités IA de façon fiable."
+        "eyebrow": "MLOps & IA",
+        "heading": "Des workflows ML fiables, du pipeline à la prod.",
+        "description": "Pipelines data, déploiement et monitoring des modèles."
       }
     ]
   },

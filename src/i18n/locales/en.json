@@ -24,25 +24,27 @@
     "ctaGithub": "See my work on GitHub"
   },
   "skills": {
-    "eyebrow": "What I do",
-    "heading": "Full-Stack, Cloud, DevOps & MLOps",
-    "intro": "I move comfortably across the whole stack — from shipping product features to designing the cloud infrastructure and automation that run them reliably in production.",
+    "headingLines": ["I build products.", "I ship them to the cloud.", "I keep them running."],
     "cards": [
       {
-        "title": "Full-Stack Engineering",
-        "description": "Building end-to-end web applications with React, TypeScript and modern backend stacks, from UI to API."
+        "eyebrow": "Full-Stack",
+        "heading": "End-to-end web apps, from UI to API.",
+        "description": "React, TypeScript and modern backend stacks."
       },
       {
-        "title": "Cloud Architecture",
-        "description": "Designing scalable, secure and cost-efficient systems on AWS — compute, storage, networking and serverless."
+        "eyebrow": "Cloud (AWS)",
+        "heading": "Scalable infrastructure that doesn't fall over.",
+        "description": "Compute, storage, networking and serverless on AWS."
       },
       {
-        "title": "DevOps & Infrastructure as Code",
-        "description": "Automating infrastructure with Terraform, CI/CD pipelines, containers and observability tooling."
+        "eyebrow": "DevOps & IaC",
+        "heading": "Everything automated, from Terraform to deploy.",
+        "description": "CI/CD pipelines, containers and observability."
       },
       {
-        "title": "MLOps & AI",
-        "description": "Operationalizing data and ML workflows — from pipelines to deployment — to ship AI features reliably."
+        "eyebrow": "MLOps & AI",
+        "heading": "Reliable ML workflows, pipeline to production.",
+        "description": "Data pipelines, model deployment and monitoring."
       }
     ]
   },
