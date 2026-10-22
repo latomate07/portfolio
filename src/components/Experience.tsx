@@ -175,7 +175,7 @@ function EntrySlide({
   active: boolean;
 }) {
   return (
-    <section className="relative flex h-screen flex-col overflow-hidden bg-panel lg:flex-row">
+    <section className="relative flex h-full flex-col overflow-hidden bg-panel lg:flex-row">
       <div className="relative flex min-h-[42vh] flex-1 flex-col justify-between overflow-hidden bg-panel px-8 pt-10 pb-8 text-cream sm:px-12 lg:min-h-screen lg:px-16">
         <div
           aria-hidden
@@ -200,22 +200,20 @@ function EntrySlide({
             <img src={entry.logo} alt="" className="h-full w-full object-contain p-5" />
           </div>
           <p className="font-display text-2xl font-extrabold sm:text-3xl">{entry.org}</p>
-        </div>
-
-        <div className="relative z-10 flex flex-col gap-1.5">
           {entry.duration && (
             <p className="font-display text-3xl leading-none font-extrabold text-accent sm:text-4xl">
               {entry.duration}
             </p>
           )}
-          <span className="inline-flex items-center gap-1.5 text-sm text-cream/60">
-            <Calendar size={14} />
-            {entry.start} – {entry.end}
-          </span>
+        </div>
+
+        <div className="relative z-10 flex items-center gap-1.5 text-sm text-cream/60">
+          <Calendar size={14} />
+          {entry.start} – {entry.end}
         </div>
       </div>
 
-      <div className="relative flex flex-1 flex-col justify-center rounded-t-[2.5rem] bg-cream px-8 py-12 sm:px-12 lg:rounded-t-none lg:rounded-l-[3rem] lg:-ml-10 lg:px-16">
+      <div className="relative flex flex-1 flex-col justify-center rounded-t-[2.5rem] bg-cream-soft px-8 py-12 sm:px-12 lg:rounded-t-none lg:rounded-l-[3rem] lg:-ml-10 lg:px-16">
         <div
           className="transition-all duration-700 ease-out"
           style={{
@@ -255,7 +253,7 @@ function ContinueSlide({
   onContinue: () => void;
 }) {
   return (
-    <section className="relative flex h-screen flex-col items-center justify-center overflow-hidden bg-panel px-8 text-center text-cream">
+    <section className="relative flex h-full flex-col items-center justify-center overflow-hidden bg-panel px-8 text-center text-cream">
       <div
         aria-hidden
         className="pointer-events-none absolute -top-24 -left-24 h-72 w-72 rounded-full bg-accent/15 blur-3xl"
@@ -290,6 +288,7 @@ function SliderView({
   eduLabel,
   continueHeading,
   continueCta,
+  headerHeight,
 }: {
   jobs: Job[];
   education: Education[];
@@ -297,6 +296,7 @@ function SliderView({
   eduLabel: string;
   continueHeading: string;
   continueCta: string;
+  headerHeight: number;
 }) {
   const [showEducation, setShowEducation] = useState(false);
   const [activeIndex, setActiveIndex] = useState(0);
@@ -307,7 +307,7 @@ function SliderView({
   const eduEntries = eduToEntries(education);
   const stack: StackItem[] = [
     ...jobEntries,
-    { kind: "cta" },
+    ...(showEducation ? [] : [{ kind: "cta" as const }]),
     ...(showEducation ? eduEntries : []),
   ];
   const totalRealEntries = jobEntries.length + (showEducation ? eduEntries.length : 0);
@@ -347,7 +347,12 @@ function SliderView({
         // "sticky" (it would never get the scroll runway needed to release
         // and would stay pinned forever). Render it in normal flow instead.
         const isLast = i === stack.length - 1;
-        const wrapperClassName = isLast ? "relative" : "sticky top-0";
+        const wrapperClassName = isLast ? "relative" : "sticky";
+        const wrapperStyle = {
+          top: headerHeight,
+          height: `calc(100vh - ${headerHeight}px)`,
+          zIndex: i + 1,
+        };
 
         if (item.kind === "cta") {
           return (
@@ -358,7 +363,7 @@ function SliderView({
               }}
               data-index={i}
               className={wrapperClassName}
-              style={{ zIndex: i + 1 }}
+              style={wrapperStyle}
             >
               <ContinueSlide
                 heading={continueHeading}
@@ -380,7 +385,7 @@ function SliderView({
             }}
             data-index={i}
             className={wrapperClassName}
-            style={{ zIndex: i + 1 }}
+            style={wrapperStyle}
           >
             <EntrySlide
               entry={item}
@@ -537,8 +542,10 @@ export function Experience() {
   const [view, setView] = useState<ViewMode>("slider");
   const [showHeader, setShowHeader] = useState(true);
   const [stuck, setStuck] = useState(false);
+  const [headerHeight, setHeaderHeight] = useState(0);
   const sentinelRef = useRef<HTMLDivElement>(null);
   const topSentinelRef = useRef<HTMLDivElement>(null);
+  const headerRef = useRef<HTMLDivElement>(null);
 
   useEffect(() => {
     const el = sentinelRef.current;
@@ -562,11 +569,22 @@ export function Experience() {
     return () => observer.disconnect();
   }, []);
 
+  useEffect(() => {
+    const el = headerRef.current;
+    if (!el) return;
+    // Slides sit right below the sticky header (whatever its current
+    // height) so its content is never hidden underneath it.
+    const resizeObserver = new ResizeObserver(([entry]) => setHeaderHeight(entry.contentRect.height));
+    resizeObserver.observe(el);
+    return () => resizeObserver.disconnect();
+  }, []);
+
   return (
     <div id="experience" className="relative">
       <div ref={topSentinelRef} aria-hidden />
       <div
-        className={`sticky top-0 z-50 flex flex-wrap items-center justify-between gap-6 bg-cream-soft shadow-sm transition-all duration-300 ease-out ${
+        ref={headerRef}
+        className={`sticky top-0 z-50 flex flex-wrap items-center justify-between gap-6 bg-cream-soft transition-all duration-300 ease-out ${
           showHeader ? "opacity-100" : "pointer-events-none opacity-0"
         } ${stuck ? "px-8 py-3 sm:px-12 lg:px-16" : "px-8 py-6 sm:px-12 sm:py-8 lg:px-16"}`}
       >
@@ -588,6 +606,7 @@ export function Experience() {
           eduLabel={eduLabel}
           continueHeading={continueHeading}
           continueCta={continueCta}
+          headerHeight={headerHeight}
         />
       ) : (
         <RoadmapView jobs={jobs} education={education} workLabel={workLabel} eduLabel={eduLabel} />
