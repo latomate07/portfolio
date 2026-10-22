@@ -12,9 +12,9 @@ const HATCH_PATTERN =
 function NameMark() {
   return (
     <div className="relative w-full overflow-hidden py-4 sm:py-6">
-      <div aria-hidden className="pointer-events-none absolute inset-0 opacity-20" style={{ backgroundImage: HATCH_PATTERN }} />
+      <div aria-hidden className="pointer-events-none absolute inset-0 opacity-10" style={{ backgroundImage: HATCH_PATTERN }} />
       <svg
-        viewBox="0 0 1600 340"
+        viewBox="0 0 1600 270"
         preserveAspectRatio="none"
         className="fill-ink relative z-10 block w-full h-auto"
         role="img"
@@ -31,11 +31,10 @@ function NameMark() {
           TAHIROU
         </text>
         <text
-          x="0"
-          y="320"
-          textLength="1600"
-          lengthAdjust="spacingAndGlyphs"
-          fontSize="170"
+          x="800"
+          y="245"
+          textAnchor="middle"
+          fontSize="80"
           className="font-display font-extrabold"
         >
           LAOUAN MAGAGI
@@ -50,7 +49,7 @@ export function Contact() {
 
   return (
     <footer id="contact" className="relative overflow-hidden bg-sage">
-      <div aria-hidden className="pointer-events-none absolute inset-0 opacity-20" style={{ backgroundImage: HATCH_PATTERN }} />
+      <div aria-hidden className="pointer-events-none absolute inset-0 opacity-10" style={{ backgroundImage: HATCH_PATTERN }} />
 
       <div className="relative z-10 px-8 py-20 sm:px-12 lg:px-16">
         <div className="flex flex-col items-start justify-between gap-10 lg:flex-row lg:items-end">

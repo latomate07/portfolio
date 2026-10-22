@@ -188,7 +188,7 @@ export function Skills() {
             >
               <div
                 aria-hidden
-                className="pointer-events-none absolute -right-6 -bottom-6 h-32 w-32 opacity-40"
+                className="pointer-events-none absolute -right-6 -bottom-6 h-32 w-32 opacity-20"
                 style={{
                   backgroundImage:
                     "repeating-linear-gradient(135deg, var(--color-sage-line) 0 2px, transparent 2px 7px)",
