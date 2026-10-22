@@ -144,7 +144,7 @@ export function Skills() {
 
   return (
     <section id="skills" className="bg-cream py-20">
-      <div className="mx-auto max-w-7xl px-8 sm:px-12 lg:px-16">
+      <div className="px-8 sm:px-12 lg:px-16">
         <div className="flex flex-wrap items-end justify-between gap-6">
           <h2 className="font-display max-w-3xl text-4xl leading-[1.05] font-extrabold tracking-tight text-ink uppercase sm:text-5xl lg:text-6xl">
             {headingLines.map((line) => (
@@ -176,7 +176,7 @@ export function Skills() {
 
       <div
         ref={scrollerRef}
-        className="scrollbar-none mt-12 flex snap-x snap-mandatory gap-5 overflow-x-auto scroll-smooth pr-4 pb-4 pl-8 sm:pl-12 lg:pl-[max(4rem,calc((100vw-80rem)/2+4rem))] scroll-pl-8 sm:scroll-pl-12 lg:scroll-pl-[max(4rem,calc((100vw-80rem)/2+4rem))]"
+        className="scrollbar-none mt-12 flex snap-x snap-mandatory gap-5 overflow-x-auto scroll-smooth pr-4 pb-4 pl-8 scroll-pl-8 sm:pl-12 sm:scroll-pl-12 lg:pl-16 lg:scroll-pl-16"
       >
         {cards.map((card, i) => {
           const Widget = WIDGETS[i % WIDGETS.length];

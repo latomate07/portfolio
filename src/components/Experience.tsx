@@ -116,7 +116,7 @@ export function Experience() {
 
   return (
     <section id="experience" className="bg-cream-soft py-20">
-      <div className="mx-auto max-w-7xl px-8 sm:px-12 lg:px-16">
+      <div className="px-8 sm:px-12 lg:px-16">
         <h2 className="font-display max-w-2xl text-4xl leading-[1.05] font-extrabold tracking-tight text-ink sm:text-5xl">
           {t("experience.heading")}
         </h2>

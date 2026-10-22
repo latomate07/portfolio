@@ -29,7 +29,7 @@ export function Hero() {
           className="pointer-events-none absolute inset-0 bg-linear-to-r from-panel/40 via-transparent to-transparent"
         />
 
-        <div className="relative z-10 flex h-full min-h-[60vh] flex-col justify-between px-8 pt-10 pb-10 sm:px-12 lg:min-h-screen">
+        <div className="relative z-10 flex h-full min-h-[60vh] flex-col justify-between px-8 pt-10 pb-10 sm:px-12 lg:min-h-screen lg:px-16">
           <div className="max-w-sm">
             <p className="font-display text-xl font-bold tracking-tight drop-shadow-sm sm:text-2xl">
               {t("hero.brand")}

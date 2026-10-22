@@ -56,7 +56,7 @@ export function Contact() {
       id="contact"
       className="bg-panel px-8 py-20 text-cream sm:px-12 lg:px-16"
     >
-      <div className="mx-auto flex max-w-5xl flex-col items-start justify-between gap-10 lg:flex-row lg:items-end">
+      <div className="flex flex-col items-start justify-between gap-10 lg:flex-row lg:items-end">
         <div>
           <h2 className="font-display text-3xl font-bold sm:text-4xl">
             {t("contact.heading")}
@@ -98,7 +98,7 @@ export function Contact() {
         </div>
       </div>
 
-      <div className="mx-auto mt-16 max-w-5xl border-t border-cream/10 pt-6 text-xs text-cream/50">
+      <div className="mt-16 border-t border-cream/10 pt-6 text-xs text-cream/50">
         © {CURRENT_YEAR} Tahirou LAOUAN MAGAGI — {t("footer.rights")}
       </div>
     </section>
