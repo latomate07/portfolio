@@ -6,10 +6,42 @@ const EMAIL = "lmtahirou@gmail.com";
 const GITHUB_URL = "https://github.com/latomate07";
 const CURRENT_YEAR = new Date().getFullYear();
 
+function NameMark() {
+  return (
+    <div
+      className="w-full overflow-hidden py-4 sm:py-6"
+      style={{
+        backgroundImage:
+          "repeating-linear-gradient(100deg, color-mix(in oklab, var(--color-ink) 6%, transparent) 0 1px, transparent 1px 5px), linear-gradient(120deg, var(--color-sage) 0%, var(--color-accent-soft) 100%)",
+      }}
+    >
+      <svg
+        viewBox="0 0 1600 190"
+        preserveAspectRatio="none"
+        className="fill-ink block w-full h-auto"
+        role="img"
+        aria-label="Tahirou LAOUAN MAGAGI"
+      >
+        <text
+          x="0"
+          y="155"
+          textLength="1600"
+          lengthAdjust="spacingAndGlyphs"
+          fontSize="170"
+          className="font-display font-extrabold"
+        >
+          TAHIROU LAOUAN MAGAGI
+        </text>
+      </svg>
+    </div>
+  );
+}
+
 export function Contact() {
   const { t } = useTranslation();
 
   return (
+    <>
     <section
       id="contact"
       className="bg-panel px-8 py-20 text-cream sm:px-12 lg:px-16"
@@ -60,5 +92,7 @@ export function Contact() {
         © {CURRENT_YEAR} Tahirou LAOUAN MAGAGI — {t("footer.rights")}
       </div>
     </section>
+    <NameMark />
+    </>
   );
 }
