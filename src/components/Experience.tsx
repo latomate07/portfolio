@@ -176,7 +176,7 @@ function EntrySlide({
 }) {
   return (
     <section className="relative flex h-full flex-col overflow-hidden bg-panel lg:flex-row">
-      <div className="relative flex min-h-[42vh] flex-1 flex-col justify-between overflow-hidden bg-panel px-8 pt-10 pb-8 text-cream sm:px-12 lg:min-h-screen lg:px-16">
+      <div className="relative flex min-h-[42vh] flex-1 flex-col overflow-hidden bg-panel px-8 pt-10 pb-8 text-cream sm:px-12 lg:min-h-screen lg:px-16">
         <div
           aria-hidden
           className="pointer-events-none absolute -top-24 -left-24 h-72 w-72 rounded-full bg-accent/15 blur-3xl"
@@ -195,21 +195,22 @@ function EntrySlide({
           </p>
         </div>
 
-        <div className="relative z-10 mx-auto flex w-full max-w-xs flex-col items-center gap-6 text-center">
+        <div className="relative z-10 m-auto flex w-full max-w-xs flex-col items-center gap-6 text-center">
           <div className="flex h-32 w-32 shrink-0 items-center justify-center overflow-hidden rounded-4xl bg-white shadow-2xl ring-4 ring-cream/10 sm:h-40 sm:w-40">
             <img src={entry.logo} alt="" className="h-full w-full object-contain p-5" />
           </div>
           <p className="font-display text-2xl font-extrabold sm:text-3xl">{entry.org}</p>
-          {entry.duration && (
-            <p className="font-display text-3xl leading-none font-extrabold text-accent sm:text-4xl">
-              {entry.duration}
-            </p>
-          )}
-        </div>
-
-        <div className="relative z-10 flex items-center gap-1.5 text-sm text-cream/60">
-          <Calendar size={14} />
-          {entry.start} – {entry.end}
+          <div className="flex flex-col items-center gap-1">
+            {entry.duration && (
+              <p className="font-display text-3xl leading-none font-extrabold text-accent sm:text-4xl">
+                {entry.duration}
+              </p>
+            )}
+            <span className="inline-flex items-center gap-1.5 text-xs text-cream/50">
+              <Calendar size={12} />
+              {entry.start} – {entry.end}
+            </span>
+          </div>
         </div>
       </div>
 
