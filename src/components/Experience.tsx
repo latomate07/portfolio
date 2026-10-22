@@ -301,8 +301,10 @@ function SliderView({
 }) {
   const [showEducation, setShowEducation] = useState(false);
   const [activeIndex, setActiveIndex] = useState(0);
+  const [progress, setProgress] = useState(0);
   const itemRefs = useRef<(HTMLDivElement | null)[]>([]);
   const intersectingRef = useRef<Set<number>>(new Set());
+  const rafRef = useRef<number | null>(null);
 
   const jobEntries = jobsToEntries(jobs);
   const eduEntries = eduToEntries(education);
@@ -312,6 +314,11 @@ function SliderView({
     ...(showEducation ? eduEntries : []),
   ];
   const totalRealEntries = jobEntries.length + (showEducation ? eduEntries.length : 0);
+
+  // Extra scroll distance held "in reserve" below each slide: the slide
+  // stays pinned/frozen while the user scrolls through it, instead of the
+  // next one immediately sliding in.
+  const RUNWAY_RATIO = 0.6;
 
   useEffect(() => {
     // Every sticky slide stays mounted "stuck" behind the ones that follow
@@ -333,16 +340,65 @@ function SliderView({
           setActiveIndex(Math.max(...intersectingRef.current));
         }
       },
-      { threshold: 0.6 },
+      // threshold 0: a slide's wrapper is now taller than the viewport
+      // (it includes the freeze runway), so its visible ratio never gets
+      // close to 1 — any overlap at all is enough to count as "on screen".
+      { threshold: 0 },
     );
     itemRefs.current.forEach((el) => el && observer.observe(el));
     return () => observer.disconnect();
   }, [stack.length]);
 
+  useEffect(() => {
+    // getBoundingClientRect().top is useless here: while a slide is
+    // "stuck" it stays pinned at the same on-screen position by
+    // definition, so it never reflects how far we've scrolled through its
+    // runway. Track distance from the scroll position where this slide
+    // became active instead.
+    const el = itemRefs.current[activeIndex];
+    const slideHeight = window.innerHeight - headerHeight;
+    const runway = el ? el.offsetHeight - slideHeight : 0;
+    const startScrollY = window.scrollY;
+
+    const computeProgress = () => {
+      if (runway <= 1) {
+        setProgress(1);
+        return;
+      }
+      const scrolledIntoRunway = window.scrollY - startScrollY;
+      setProgress(Math.min(1, Math.max(0, scrolledIntoRunway / runway)));
+    };
+
+    const onScroll = () => {
+      if (rafRef.current !== null) return;
+      rafRef.current = requestAnimationFrame(() => {
+        rafRef.current = null;
+        computeProgress();
+      });
+    };
+
+    computeProgress();
+    window.addEventListener("scroll", onScroll, { passive: true });
+    return () => {
+      window.removeEventListener("scroll", onScroll);
+      if (rafRef.current !== null) cancelAnimationFrame(rafRef.current);
+    };
+  }, [activeIndex, headerHeight]);
+
   let realCounter = -1;
 
   return (
     <div className="relative bg-panel">
+      <div
+        className="sticky z-50 h-1.5 w-full overflow-hidden bg-ink/10"
+        style={{ top: headerHeight }}
+      >
+        <div
+          className="h-full bg-accent transition-[width] duration-150 ease-out"
+          style={{ width: `${progress * 100}%` }}
+        />
+      </div>
+
       {stack.map((item, i) => {
         // The last slide has nothing after it to cover it, so it can't be
         // "sticky" (it would never get the scroll runway needed to release
@@ -351,9 +407,12 @@ function SliderView({
         const wrapperClassName = isLast ? "relative" : "sticky";
         const wrapperStyle = {
           top: headerHeight,
-          height: `calc(100vh - ${headerHeight}px)`,
+          height: isLast
+            ? `calc(100vh - ${headerHeight}px)`
+            : `calc((100vh - ${headerHeight}px) * ${1 + RUNWAY_RATIO})`,
           zIndex: i + 1,
         };
+        const slideStyle = { height: `calc(100vh - ${headerHeight}px)` };
 
         if (item.kind === "cta") {
           return (
@@ -366,11 +425,13 @@ function SliderView({
               className={wrapperClassName}
               style={wrapperStyle}
             >
-              <ContinueSlide
-                heading={continueHeading}
-                cta={continueCta}
-                onContinue={() => setShowEducation(true)}
-              />
+              <div style={slideStyle}>
+                <ContinueSlide
+                  heading={continueHeading}
+                  cta={continueCta}
+                  onContinue={() => setShowEducation(true)}
+                />
+              </div>
             </div>
           );
         }
@@ -388,13 +449,15 @@ function SliderView({
             className={wrapperClassName}
             style={wrapperStyle}
           >
-            <EntrySlide
-              entry={item}
-              label={item.kind === "work" ? workLabel : eduLabel}
-              index={realIndex}
-              total={totalRealEntries}
-              active={activeIndex === i}
-            />
+            <div style={slideStyle}>
+              <EntrySlide
+                entry={item}
+                label={item.kind === "work" ? workLabel : eduLabel}
+                index={realIndex}
+                total={totalRealEntries}
+                active={activeIndex === i}
+              />
+            </div>
           </div>
         );
       })}
