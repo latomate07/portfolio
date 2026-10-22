@@ -9,41 +9,6 @@ const CURRENT_YEAR = new Date().getFullYear();
 const HATCH_PATTERN =
   "repeating-linear-gradient(135deg, var(--color-sage-line) 0 2px, transparent 2px 7px)";
 
-function NameMark() {
-  return (
-    <div className="relative w-full overflow-hidden py-4 sm:py-6">
-      <div aria-hidden className="pointer-events-none absolute inset-0 opacity-10" style={{ backgroundImage: HATCH_PATTERN }} />
-      <svg
-        viewBox="0 0 1600 270"
-        preserveAspectRatio="none"
-        className="fill-ink relative z-10 block w-full h-auto"
-        role="img"
-        aria-label="Tahirou LAOUAN MAGAGI"
-      >
-        <text
-          x="0"
-          y="150"
-          textLength="1600"
-          lengthAdjust="spacingAndGlyphs"
-          fontSize="170"
-          className="font-display font-extrabold"
-        >
-          TAHIROU
-        </text>
-        <text
-          x="800"
-          y="245"
-          textAnchor="middle"
-          fontSize="80"
-          className="font-display font-extrabold"
-        >
-          LAOUAN MAGAGI
-        </text>
-      </svg>
-    </div>
-  );
-}
-
 export function Contact() {
   const { t } = useTranslation();
 
@@ -98,8 +63,6 @@ export function Contact() {
           © {CURRENT_YEAR} Tahirou LAOUAN MAGAGI — {t("footer.rights")}
         </div>
       </div>
-
-      <NameMark />
     </footer>
   );
 }
