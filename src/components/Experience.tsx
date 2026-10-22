@@ -196,7 +196,7 @@ function EntrySlide({
         </div>
 
         <div className="relative z-10 mx-auto flex w-full max-w-xs flex-col items-center gap-6 text-center">
-          <div className="flex h-32 w-32 shrink-0 items-center justify-center overflow-hidden rounded-[2rem] bg-white shadow-2xl ring-4 ring-cream/10 sm:h-40 sm:w-40">
+          <div className="flex h-32 w-32 shrink-0 items-center justify-center overflow-hidden rounded-4xl bg-white shadow-2xl ring-4 ring-cream/10 sm:h-40 sm:w-40">
             <img src={entry.logo} alt="" className="h-full w-full object-contain p-5" />
           </div>
           <p className="font-display text-2xl font-extrabold sm:text-3xl">{entry.org}</p>
@@ -536,7 +536,9 @@ export function Experience() {
 
   const [view, setView] = useState<ViewMode>("slider");
   const [showHeader, setShowHeader] = useState(true);
+  const [stuck, setStuck] = useState(false);
   const sentinelRef = useRef<HTMLDivElement>(null);
+  const topSentinelRef = useRef<HTMLDivElement>(null);
 
   useEffect(() => {
     const el = sentinelRef.current;
@@ -548,14 +550,31 @@ export function Experience() {
     return () => observer.disconnect();
   }, []);
 
+  useEffect(() => {
+    const el = topSentinelRef.current;
+    if (!el) return;
+    // A 0px-tall marker sitting right above the sticky header: once it
+    // scrolls past the top of the viewport, the header has become "stuck".
+    const observer = new IntersectionObserver(([entry]) => setStuck(!entry.isIntersecting), {
+      threshold: 0,
+    });
+    observer.observe(el);
+    return () => observer.disconnect();
+  }, []);
+
   return (
     <div id="experience" className="relative">
+      <div ref={topSentinelRef} aria-hidden />
       <div
-        className={`sticky top-0 z-50 flex flex-wrap items-center justify-between gap-6 bg-cream-soft px-8 py-6 shadow-sm transition-opacity duration-300 sm:px-12 lg:px-16 ${
+        className={`sticky top-0 z-50 flex flex-wrap items-center justify-between gap-6 bg-cream-soft shadow-sm transition-all duration-300 ease-out ${
           showHeader ? "opacity-100" : "pointer-events-none opacity-0"
-        }`}
+        } ${stuck ? "px-8 py-3 sm:px-12 lg:px-16" : "px-8 py-6 sm:px-12 sm:py-8 lg:px-16"}`}
       >
-        <h2 className="font-display text-2xl font-extrabold tracking-tight text-ink sm:text-3xl">
+        <h2
+          className={`font-display font-extrabold tracking-tight text-ink transition-all duration-300 ease-out ${
+            stuck ? "text-base sm:text-lg" : "text-2xl sm:text-3xl"
+          }`}
+        >
           {t("experience.heading")}
         </h2>
         <ViewToggle mode={view} onChange={setView} />
