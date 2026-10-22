@@ -176,7 +176,7 @@ export function Skills() {
 
       <div
         ref={scrollerRef}
-        className="[scrollbar-width:none] mt-12 flex snap-x snap-mandatory gap-5 overflow-x-auto scroll-smooth px-8 pb-4 sm:px-12 lg:px-16 [&::-webkit-scrollbar]:hidden"
+        className="scrollbar-none mt-12 flex snap-x snap-mandatory gap-5 overflow-x-auto scroll-smooth pr-4 pb-4 pl-8 sm:pl-12 lg:pl-[max(4rem,calc((100vw-80rem)/2+4rem))] scroll-pl-8 sm:scroll-pl-12 lg:scroll-pl-[max(4rem,calc((100vw-80rem)/2+4rem))]"
       >
         {cards.map((card, i) => {
           const Widget = WIDGETS[i % WIDGETS.length];
@@ -184,7 +184,7 @@ export function Skills() {
             <article
               key={card.eyebrow}
               data-card
-              className="relative flex w-[82vw] max-w-sm shrink-0 snap-start flex-col overflow-hidden rounded-[2rem] bg-sage p-7 sm:w-90"
+              className="relative flex w-[82vw] max-w-sm shrink-0 snap-start flex-col overflow-hidden rounded-4xl bg-sage p-7 sm:w-90"
             >
               <div
                 aria-hidden
