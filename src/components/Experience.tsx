@@ -214,7 +214,7 @@ function EntrySlide({
         </div>
       </div>
 
-      <div className="relative flex flex-1 flex-col justify-center rounded-t-[2.5rem] bg-cream-soft px-8 py-12 sm:px-12 lg:rounded-t-none lg:rounded-l-[3rem] lg:-ml-10 lg:px-16">
+      <div className="torn-edge relative flex flex-1 flex-col justify-center rounded-t-[2.5rem] bg-cream px-8 py-12 sm:px-12 lg:-ml-10 lg:rounded-t-none lg:px-20">
         <div
           className="transition-all duration-700 ease-out"
           style={{
@@ -464,7 +464,7 @@ function RoadmapView({
   eduLabel: string;
 }) {
   return (
-    <div className="bg-cream-soft px-8 pb-20 sm:px-12 lg:px-16">
+    <div className="bg-cream px-8 pb-20 sm:px-12 lg:px-16">
       <div className="grid gap-16 lg:grid-cols-2 lg:gap-12">
         <div>
           <p className="text-xs font-bold tracking-[0.15em] text-ink/50 uppercase">{workLabel}</p>
@@ -601,7 +601,7 @@ export function Experience() {
       <div ref={topSentinelRef} aria-hidden />
       <div
         ref={headerRef}
-        className={`sticky top-0 z-50 flex flex-wrap items-center justify-between gap-6 bg-cream-soft transition-all duration-300 ease-out ${
+        className={`sticky top-0 z-50 flex flex-wrap items-center justify-between gap-6 bg-cream transition-all duration-300 ease-out ${
           showHeader ? "opacity-100" : "pointer-events-none opacity-0"
         } ${stuck ? "px-8 py-3 sm:px-12 lg:px-16" : "px-8 py-6 sm:px-12 sm:py-8 lg:px-16"}`}
       >
