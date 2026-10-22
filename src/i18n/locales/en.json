@@ -48,6 +48,107 @@
       }
     ]
   },
+  "experience": {
+    "heading": "My journey",
+    "workLabel": "Experience",
+    "eduLabel": "Education",
+    "jobs": [
+      {
+        "role": "Cloud Software Engineer",
+        "company": "Fortuneo",
+        "type": "Apprenticeship",
+        "start": "Sep 2025",
+        "end": "Present",
+        "duration": "1 yr 2 mos",
+        "location": "Paris, France",
+        "mode": "Hybrid",
+        "skills": [
+          { "id": "aws", "label": "AWS" },
+          { "id": "typescript", "label": "TypeScript" },
+          { "id": "iac", "label": "Infrastructure as Code" },
+          { "id": "nodejs", "label": "Node.js" },
+          { "id": "react", "label": "React.js" },
+          { "id": "datadog", "label": "Datadog" },
+          { "id": "cicd", "label": "CI/CD" },
+          { "id": "observability", "label": "Observability" }
+        ]
+      },
+      {
+        "role": "Full-Stack Web Developer",
+        "company": "Shin agency",
+        "type": "Apprenticeship",
+        "start": "Sep 2023",
+        "end": "Sep 2025",
+        "duration": "2 yrs 1 mo",
+        "location": "Paris, France",
+        "mode": "Hybrid",
+        "skills": [
+          { "id": "nodejs", "label": "Node.js" },
+          { "id": "laravel", "label": "Laravel" },
+          { "id": "docker", "label": "Docker" },
+          { "id": "wordpress", "label": "WordPress" },
+          { "id": "vuejs", "label": "Vue.js" },
+          { "id": "sass", "label": "Sass" },
+          { "id": "javascript", "label": "JavaScript" }
+        ]
+      },
+      {
+        "role": "Full-Stack Web Developer",
+        "company": "Lynx Business",
+        "type": "Apprenticeship",
+        "start": "Sep 2022",
+        "end": "Sep 2023",
+        "duration": "1 yr 1 mo",
+        "location": "Cergy, France",
+        "mode": "Hybrid",
+        "skills": [
+          { "id": "laravel", "label": "Laravel" },
+          { "id": "javascript", "label": "JavaScript" },
+          { "id": "vuejs", "label": "Vue.js" },
+          { "id": "jquery", "label": "jQuery" },
+          { "id": "tailwind", "label": "Tailwind CSS" }
+        ]
+      }
+    ],
+    "education": [
+      {
+        "school": "ESILV",
+        "degree": "M.Sc. — Computer Science & Data Science",
+        "field": "Cloud / Software Engineering / Data Engineering / Machine Learning",
+        "start": "Sep 2025",
+        "end": "Jul 2027",
+        "skills": [
+          { "id": "python", "label": "Python" },
+          { "id": "cloud", "label": "Cloud Computing" },
+          { "id": "ml", "label": "Machine Learning" },
+          { "id": "data", "label": "Data Engineering" }
+        ]
+      },
+      {
+        "school": "ECE Paris",
+        "degree": "Bachelor's Degree — Computer Engineering",
+        "field": "",
+        "start": "Sep 2024",
+        "end": "Sep 2025",
+        "skills": [
+          { "id": "docker", "label": "Docker" },
+          { "id": "javascript", "label": "JavaScript" },
+          { "id": "swe", "label": "Software Engineering" }
+        ]
+      },
+      {
+        "school": "Institut F2I",
+        "degree": "BTS SIO — Computer Science",
+        "field": "",
+        "start": "Sep 2022",
+        "end": "Jul 2024",
+        "skills": [
+          { "id": "java", "label": "Java" },
+          { "id": "network", "label": "Network Administration" }
+        ]
+      }
+    ]
+  },
   "contact": {
     "heading": "Let's talk",
     "paragraph": "Open to new opportunities and interesting conversations about cloud, DevOps and AI.",
