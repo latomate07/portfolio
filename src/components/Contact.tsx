@@ -16,7 +16,7 @@ function NameMark() {
       }}
     >
       <svg
-        viewBox="0 0 1600 190"
+        viewBox="0 0 1600 340"
         preserveAspectRatio="none"
         className="fill-ink block w-full h-auto"
         role="img"
@@ -24,13 +24,23 @@ function NameMark() {
       >
         <text
           x="0"
-          y="155"
+          y="150"
           textLength="1600"
           lengthAdjust="spacingAndGlyphs"
           fontSize="170"
           className="font-display font-extrabold"
         >
-          TAHIROU LAOUAN MAGAGI
+          TAHIROU
+        </text>
+        <text
+          x="0"
+          y="320"
+          textLength="1600"
+          lengthAdjust="spacingAndGlyphs"
+          fontSize="170"
+          className="font-display font-extrabold"
+        >
+          LAOUAN MAGAGI
         </text>
       </svg>
     </div>
