@@ -21,7 +21,12 @@
     "paragraph2": "J'aime transformer des problématiques complexes en solutions simples, robustes et efficaces, avec un intérêt particulier pour AWS, le DevOps, la Data et l'IA.",
     "signature": "Construisons quelque chose de solide :)",
     "cta": "Apprenez-en plus sur moi",
-    "ctaGithub": "Voir mon travail sur GitHub"
+    "ctaGithub": "Voir mon travail sur GitHub",
+    "metrics": [
+      { "value": "+4", "label": "Ans d'expérience" },
+      { "value": "+10", "label": "Projets en production" },
+      { "value": "+3", "label": "Packages open source" }
+    ]
   },
   "skills": {
     "headingLines": ["Je conçois des produits.", "Je les déploie dans le cloud.", "Je les maintiens en vie."],

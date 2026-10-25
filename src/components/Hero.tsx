@@ -1,12 +1,18 @@
 import { useTranslation } from "react-i18next";
-import { ArrowUpRight } from "lucide-react";
+import { ArrowUpRight, CalendarRange, Package, Rocket } from "lucide-react";
 import avatar from "../assets/avatar.webp";
 import { LanguageSwitcher } from "./LanguageSwitcher";
 import { GithubMark } from "./icons/GithubMark";
 
+const METRIC_ICONS = [CalendarRange, Rocket, Package];
+
 export function Hero() {
   const { t } = useTranslation();
   const tags = t("hero.tags", { returnObjects: true }) as string[];
+  const metrics = t("hero.metrics", { returnObjects: true }) as {
+    value: string;
+    label: string;
+  }[];
 
   return (
     <section
@@ -76,12 +82,39 @@ export function Hero() {
             <p>{t("hero.paragraph2")}</p>
           </div>
 
-          <p className="mt-8 -rotate-2 font-display text-xl text-accent sm:text-2xl">
-            {t("hero.signature")}
-          </p>
         </div>
 
-        <div className="mt-10 flex flex-wrap items-center gap-4">
+        <div className="mt-10 grid grid-cols-3 gap-3 sm:gap-4">
+          {metrics.map((metric, i) => {
+            const Icon = METRIC_ICONS[i % METRIC_ICONS.length];
+            return (
+              <div
+                key={metric.label}
+                className="relative overflow-hidden rounded-3xl bg-sage p-4 sm:p-5"
+              >
+                <div
+                  aria-hidden
+                  className="pointer-events-none absolute -right-4 -bottom-4 h-20 w-20 opacity-20"
+                  style={{
+                    backgroundImage:
+                      "repeating-linear-gradient(135deg, var(--color-sage-line) 0 2px, transparent 2px 7px)",
+                  }}
+                />
+                <span className="relative z-10 inline-flex h-9 w-9 items-center justify-center rounded-full border border-ink/20 text-ink">
+                  <Icon size={16} />
+                </span>
+                <p className="font-display relative z-10 mt-3 text-2xl font-extrabold text-ink sm:text-3xl">
+                  {metric.value}
+                </p>
+                <p className="relative z-10 mt-1 text-xs leading-snug text-ink/60 sm:text-sm">
+                  {metric.label}
+                </p>
+              </div>
+            );
+          })}
+        </div>
+
+        <div className="mt-8 flex flex-wrap items-center gap-4">
           <a
             href="#skills"
             className="group inline-flex items-center gap-2 font-display text-xl font-bold text-ink transition-colors hover:text-accent sm:text-2xl"

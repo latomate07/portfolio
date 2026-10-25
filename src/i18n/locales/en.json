@@ -10,7 +10,7 @@
   },
   "hero": {
     "brand": "Tahirou LAOUAN MAGAGI",
-    "tags": ["Full-Stack Engineering", "Cloud Architecture (AWS)", "DevOps & Infrastructure", "MLOps & AI"],
+    "tags": ["Full-Stack Engineering", "Cloud Architecture (AWS)", "DevOps & Infrastructure"],
     "role": "Cloud Software Engineer at Fortuneo",
     "subrole": "M2 Computer Science & Data Science @ ESILV",
     "greeting": "Hey!",
@@ -21,7 +21,12 @@
     "paragraph2": "I love turning complex challenges into simple, robust and efficient solutions — with a strong focus on AWS, DevOps, Data and AI.",
     "signature": "Let's build something solid :)",
     "cta": "Get to know me",
-    "ctaGithub": "See my work on GitHub"
+    "ctaGithub": "See my work on GitHub",
+    "metrics": [
+      { "value": "+4", "label": "Years of experience" },
+      { "value": "+10", "label": "Production projects" },
+      { "value": "+3", "label": "Open source packages" }
+    ]
   },
   "skills": {
     "headingLines": ["I build products.", "I ship them to the cloud.", "I keep them running."],
