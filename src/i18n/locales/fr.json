@@ -10,7 +10,7 @@
   },
   "hero": {
     "brand": "Tahirou LAOUAN MAGAGI",
-    "tags": ["Full-Stack Engineering", "Architecture Cloud (AWS)", "DevOps & Infrastructure", "MLOps & IA"],
+    "tags": ["Full-Stack Engineering", "Architecture Cloud (AWS)", "DevOps & Infrastructure"],
     "role": "Cloud Software Engineer chez Fortuneo",
     "subrole": "M2 Informatique & Data Science @ ESILV",
     "greeting": "Hey !",
@@ -38,7 +38,7 @@
       },
       {
         "eyebrow": "Cloud (AWS)",
-        "heading": "Une infra scalable qui ne tombe pas en marche.",
+        "heading": "Une infra scalable qui tient la charge.",
         "description": "Compute, stockage, réseau et serverless sur AWS."
       },
       {
